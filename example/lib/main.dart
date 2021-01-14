@@ -22,12 +22,10 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     await Carrot.setup(apiKey: 'your apiKey', appId: 'your appId')
         .catchError((onError) => print(onError));
-    await Carrot.setDebug().catchError((onError) => print(onError));
+    /* await Carrot.setDebug().catchError((onError) => print(onError));
     await Carrot.auth(userId: 'your userId', userAuthKey: 'your userAuthKey')
-        .catchError((onError) => print(onError));
+        .catchError((onError) => print(onError)); */
     await Carrot.openChat().catchError((onError) => print(onError));
-    if (!mounted) return;
-    setState(() {});
   }
 
   @override

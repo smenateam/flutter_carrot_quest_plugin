@@ -23,4 +23,4 @@ flutter:
         package: io.carrotquest.flutter_carrotquest
         pluginClass: FlutterCarrotQuestPlugin
       ios:
-        pluginClass: FlutterCarrotQuestPlugin
+        pluginClass: FlutterCarrotquestPlugin

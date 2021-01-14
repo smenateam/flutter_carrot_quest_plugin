@@ -1,4 +1,4 @@
-#import "FlutterCarrotQuestPlugin.h"
+#import "FlutterCarrotquestPlugin.h"
 #if __has_include(<flutter_carrotquest/flutter_carrotquest-Swift.h>)
 #import <flutter_carrotquest/flutter_carrotquest-Swift.h>
 #else
@@ -8,8 +8,8 @@
 #import "flutter_carrotquest-Swift.h"
 #endif
 
-@implementation FlutterCarrotQuestPlugin
+@implementation FlutterCarrotquestPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [SwiftFlutterCarrotQuestPlugin registerWithRegistrar:registrar];
+  [SwiftFlutterCarrotquestPlugin registerWithRegistrar:registrar];
 }
 @end

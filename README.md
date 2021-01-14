@@ -37,6 +37,7 @@ await Carrot.setup(apiKey: 'your apiKey', appId: 'your appId')
 ```
 
 ```dart
+// Android only
 await Carrot.setDebug()
         .catchError((onError) => print(onError));
 ```
@@ -47,6 +48,7 @@ await Carrot.auth(userId: 'your userId', userAuthKey: 'your userAuthKey')
 ```
 
 ```dart
+// Android only
 await Carrot.deinit()
         .catchError((onError) => print(onError));
 ```
