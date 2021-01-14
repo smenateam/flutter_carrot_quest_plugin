@@ -84,7 +84,7 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
             if(!checkPlugininnited(result: result)) {
                 return
             }
-            //Carrot.shared.openChat()
+            Carrot.shared.openChat()
             result(nil)
             return
         } else {
