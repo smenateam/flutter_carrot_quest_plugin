@@ -27,6 +27,6 @@ class Carrot {
   }
 
   static Future<void> openChat() async {
-    return _channel.invokeMethod<void>('open_chat');
+    return _channel.invokeMethod('open_chat');
   }
 }
