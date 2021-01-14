@@ -20,8 +20,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    await Carrot.setup(apiKey: 'apiKey', appId: 'appId')
+    await Carrot.setup(apiKey: 'your apiKey', appId: 'your appId')
         .catchError((onError) => print(onError));
+    await Carrot.setDebug();
+    await Carrot.auth(userId: 'your userId', userAuthKey: 'your userAuthKey');
     await Carrot.openChat();
     if (!mounted) return;
     setState(() {});

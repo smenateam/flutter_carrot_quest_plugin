@@ -35,7 +35,7 @@ class FlutterCarrotQuestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     result.error("Plugin is already initialized.", null, null)
                     return
                 }
-                val apiKey = call.argument<String>("app_key")
+                val apiKey = call.argument<String>("api_key")
                 val appId = call.argument<String>("app_id")
                 if (apiKey == null || appId == null) {
                     result.error("An error has occurred, the apiKey or appId is null.", null, null)
@@ -43,28 +43,78 @@ class FlutterCarrotQuestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
                 Carrot.setup(context, apiKey, appId, object : CarrotSDK.Callback<Boolean> {
                     override fun onFailure(p0: Throwable?) {
-                        result.error(p0.toString(), null, null)
                         pluginInited = false
+                        result.error(p0.toString(), null, null)
                     }
 
                     override fun onResponse(p0: Boolean?) {
-                        result.success(null)
                         pluginInited = true
+                        result.success(null)
                     }
                 })
             }
-            "open_chat" -> {
-                if (!pluginInited) {
-                    result.error("The plugin hasn't been initialized yet. Do Carrot.setup(...) first .", null, null)
+            "set_debug" -> {
+                var isDebug = call.argument<Boolean>("is_debug")
+                if (isDebug == null) isDebug = true
+                try {
+                    Carrot.setDebug(isDebug)
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error(e.localizedMessage, null, null)
+                }
+            }
+            "auth" -> {
+                if (!checkPlugininnited(result)) return
+                val userId = call.argument<String>("user_id")
+                val userAuthKey = call.argument<String>("user_auth_key")
+                if (userId == null || userAuthKey == null) {
+                    result.error("An error has occurred, the userId or userAuthKey is null.", null, null)
                     return
                 }
-                Carrot.openChat(context)
-                result.success(null)
+                Carrot.auth(userId, userAuthKey, object : CarrotSDK.Callback<Boolean> {
+                    override fun onResponse(p0: Boolean?) {
+                        result.success(p0)
+                    }
+
+                    override fun onFailure(p0: Throwable?) {
+                        result.error(p0?.localizedMessage, null, null)
+                    }
+                })
+            }
+            "de_init" -> {
+                if (!checkPlugininnited(result)) return
+                try {
+                    Carrot.deInit()
+                    pluginInited = false
+                    result.success(null)
+                } catch (e: Exception) {
+                    pluginInited = false
+                    result.error(e.localizedMessage, null, null)
+                }
+            }
+            "open_chat" -> {
+               if (!checkPlugininnited(result)) return
+                try {
+                    Carrot.openChat(activity)
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error(e.localizedMessage, null, null)
+                }
             }
             else -> {
                 result.notImplemented()
             }
         }
+
+
+       }
+
+    private fun checkPlugininnited(@NonNull result: Result): Boolean{
+        if (!pluginInited) {
+            result.error("The plugin hasn't been initialized yet. Do Carrot.setup(...) first .", null, null)
+            return false
+        }
+        return true
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
