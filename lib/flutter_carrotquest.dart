@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class Carrot {
@@ -7,7 +8,7 @@ class Carrot {
       const MethodChannel('flutter_carrotquest');
 
   static Future<void> setup(
-      {required String apiKey, required String appId}) async {
+      {@required String apiKey, @required String appId}) async {
     return _channel
         .invokeMethod<void>('setup', {'api_key': apiKey, 'app_id': appId});
   }
@@ -16,9 +17,9 @@ class Carrot {
     return _channel.invokeMethod<void>('set_debug', {'is_debug': isDebug});
   }
 
-  static Future<bool?> auth(
-      {required String userId, required String userAuthKey}) async {
-    return _channel.invokeMethod<bool?>(
+  static Future<bool> auth(
+      {@required String userId, @required String userAuthKey}) async {
+    return _channel.invokeMethod<bool>(
         'auth', {'user_id': userId, 'user_auth_key': userAuthKey});
   }
 
