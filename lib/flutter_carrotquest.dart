@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class Carrot {
@@ -11,7 +10,7 @@ class Carrot {
   /// This must be done before using any other methods of this plugin.
   /// You can use this in main.dart before launch runApp(...)
   static Future<void> setup(
-      {@required String apiKey, @required String appId}) async {
+      {required String apiKey, required String appId}) async {
     return _channel
         .invokeMethod<void>('setup', {'api_key': apiKey, 'app_id': appId});
   }
@@ -23,9 +22,9 @@ class Carrot {
   }
 
   // User authorization
-  static Future<bool> auth(
-      {@required String userId, @required String userAuthKey}) async {
-    return _channel.invokeMethod<bool>(
+  static Future<bool?> auth(
+      {required String userId, required String userAuthKey}) async {
+    return _channel.invokeMethod<bool?>(
         'auth', {'user_id': userId, 'user_auth_key': userAuthKey});
   }
 
