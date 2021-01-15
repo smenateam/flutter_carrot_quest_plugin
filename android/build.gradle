@@ -50,5 +50,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'io.carrotquest:android-sdk:1.0.28-commonRelease'
-    compileOnly files('tmpLib/flutter.jar')
+    //compileOnly files('tmpLib/flutter.jar')
 }
