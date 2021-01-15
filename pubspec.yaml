@@ -1,6 +1,6 @@
 name: flutter_carrotquest
 description: A Carrot quest flutter plugin for Android and IOS. You can find a description of the service at https://www.carrotquest.io
-version: 0.0.1-dev.2
+version: 0.0.1-dev.0
 repository: https://gitlab.com/dipdev.studio/open-source/flutter/flutter_carrotquest
 
 environment:
