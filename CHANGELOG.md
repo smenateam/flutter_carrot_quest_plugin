@@ -1,8 +1,17 @@
+## 0.0.1-nullsafety.2
+
+* Fix ios target version
+
 ## 0.0.1-nullsafety.1
 
 ### Version v0.0.1-dev.0 with null safety
 
  * Marge v0.0.1-dev.0 to v 0.0.1-dev.1
+
+## 0.0.1-dev.2
+
+* Fix ios target version
+
 ## 0.0.1-dev.1
 
 ### Init package with null safety (not work Android)
