@@ -15,10 +15,10 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
-    private lateinit var context: Context
-    private lateinit var activity: Activity
+    private var context: Context? = null
+    private var activity: Activity? = null
 
-    private var pluginInited = false
+    private var pluginInitted = false
 
     override fun onAttachedToEngine(
             @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
@@ -31,7 +31,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
             "setup" -> {
-                if (pluginInited) {
+                if (pluginInitted) {
                     result.error("Plugin is already initialized.", null, null)
                     return
                 }
@@ -41,17 +41,22 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     result.error("An error has occurred, the apiKey or appId is null.", null, null)
                     return
                 }
-                Carrot.setup(context, apiKey, appId, object : CarrotSDK.Callback<Boolean> {
-                    override fun onFailure(p0: Throwable?) {
-                        pluginInited = false
-                        result.error(p0.toString(), null, null)
-                    }
+                val con = context
+                if (con != null) {
+                    Carrot.setup(con, apiKey, appId, object : CarrotSDK.Callback<Boolean> {
+                        override fun onFailure(p0: Throwable?) {
+                            pluginInitted = false
+                            result.error(p0.toString(), null, null)
+                        }
 
-                    override fun onResponse(p0: Boolean?) {
-                        pluginInited = true
-                        result.success(null)
-                    }
-                })
+                        override fun onResponse(p0: Boolean?) {
+                            pluginInitted = true
+                            result.success(null)
+                        }
+                    })
+                } else {
+                    result.error("Activity in null", null, null)
+                }
             }
             "set_debug" -> {
                 var isDebug = call.argument<Boolean>("is_debug")
@@ -64,7 +69,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
             }
             "auth" -> {
-                if (!checkPlugininnited(result)) return
+                if (!checkPluginInitted(result)) return
                 val userId = call.argument<String>("user_id")
                 val userAuthKey = call.argument<String>("user_auth_key")
                 if (userId == null || userAuthKey == null) {
@@ -82,21 +87,25 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 })
             }
             "de_init" -> {
-                if (!checkPlugininnited(result)) return
+                if (!checkPluginInitted(result)) return
                 try {
                     Carrot.deInit()
-                    pluginInited = false
+                    pluginInitted = false
                     result.success(null)
                 } catch (e: Exception) {
-                    pluginInited = false
+                    pluginInitted = false
                     result.error(e.localizedMessage, null, null)
                 }
             }
             "open_chat" -> {
-               if (!checkPlugininnited(result)) return
+                if (!checkPluginInitted(result)) return
                 try {
-                    Carrot.openChat(activity)
-                    result.success(null)
+                    if (activity != null) {
+                        Carrot.openChat(activity)
+                        result.success(null)
+                    } else {
+                        result.error("Activity in null", null, null)
+                    }
                 } catch (e: Exception) {
                     result.error(e.localizedMessage, null, null)
                 }
@@ -107,10 +116,10 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
         }
 
 
-       }
+    }
 
-    private fun checkPlugininnited(@NonNull result: Result): Boolean{
-        if (!pluginInited) {
+    private fun checkPluginInitted(@NonNull result: Result): Boolean {
+        if (!pluginInitted) {
             result.error("The plugin hasn't been initialized yet. Do Carrot.setup(...) first .", null, null)
             return false
         }
@@ -119,21 +128,22 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+        pluginInitted = false
+        context = null
     }
 
     override fun onDetachedFromActivity() {
-        TODO("Not yet implemented")
+        pluginInitted = false
+        activity = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        TODO("Not yet implemented")
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity;
+        activity = binding.activity
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        TODO("Not yet implemented")
     }
 }
