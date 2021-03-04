@@ -1,3 +1,7 @@
+## 1.0.0-dev.1
+
+* Upgrade Android to 29 version of SDK and fix noimplemented warning
+
 ## 0.0.1-nullsafety.2
 
 * Fix ios target version
