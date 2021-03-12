@@ -29,6 +29,7 @@ Pod::Spec.new do |s|
   #s.ios.deployment_target = '10.0'
 
   s.dependency 'Flutter'
+  s.platform = :ios, '10.0'
 
   #s.dependency 'firebase_core'
   #s.dependency 'Firebase/Messaging', firebase_sdk_version
