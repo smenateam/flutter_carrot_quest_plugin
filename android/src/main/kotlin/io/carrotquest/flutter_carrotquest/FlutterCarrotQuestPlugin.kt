@@ -111,23 +111,23 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     result.error(e.localizedMessage, null, null)
                 }
             }
-            "track_event" -> {
+            "send_firebase_notification" -> {
                 if (!checkPluginInitiated(result)) return
-                val eventName = call.argument<String?>("event_name")
-                val eventParams = call.argument<String?>("event_params")
-                if (eventName == null) {
-                    result.error("An error has occurred, the event_name is null.", null, null)
+                val remoteMessage = call.argument<Any?>("remote_message")
+                if (remoteMessage == null) {
+                    result.error("An error has occurred, the remoteMessage is null.", null, null)
                     return
                 }
                 try {
-                    if (eventParams != null)
-                        Carrot.trackEvent(eventName, eventParams)
-                    else
-                        Carrot.trackEvent(eventName)
-                    result.success(null)
+                    //Carrot.sendFirebasePushNotification(remoteMessage)
+                    //result.success(null)
+                    result.notImplemented()
                 } catch (e: Exception) {
                     result.error(e.localizedMessage, null, null)
                 }
+            }
+            "set_token" -> {
+                result.notImplemented()
             }
             "set_user_property" -> {
                 if (!checkPluginInitiated(result)) return
@@ -148,17 +148,20 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     result.error(e.localizedMessage, null, null)
                 }
             }
-            "send_firebase_notification" -> {
+            "track_event" -> {
                 if (!checkPluginInitiated(result)) return
-                val remoteMessage = call.argument<Any?>("remote_message")
-                if (remoteMessage == null) {
-                    result.error("An error has occurred, the remoteMessage is null.", null, null)
+                val eventName = call.argument<String?>("event_name")
+                val eventParams = call.argument<String?>("event_params")
+                if (eventName == null) {
+                    result.error("An error has occurred, the event_name is null.", null, null)
                     return
                 }
                 try {
-                    //Carrot.sendFirebasePushNotification(remoteMessage)
-                    //result.success(null)
-                    result.notImplemented()
+                    if (eventParams != null)
+                        Carrot.trackEvent(eventName, eventParams)
+                    else
+                        Carrot.trackEvent(eventName)
+                    result.success(null)
                 } catch (e: Exception) {
                     result.error(e.localizedMessage, null, null)
                 }
