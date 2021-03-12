@@ -1,3 +1,7 @@
+## 1.0.0-dev.2
+
+* Implement setToken, setUserProperty and trackEvent methods
+
 ## 1.0.0-dev.1
 
 * Upgrade Android to 29 version of SDK and fix noimplemented warning

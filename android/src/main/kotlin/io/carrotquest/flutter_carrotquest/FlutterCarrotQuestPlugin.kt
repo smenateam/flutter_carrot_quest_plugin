@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 import io.carrotquest_sdk.android.Carrot
 import io.carrotquest_sdk.android.core.main.CarrotSDK
+import io.carrotquest_sdk.android.models.UserProperty
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -35,8 +36,8 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     result.error("Plugin is already initialized.", null, null)
                     return
                 }
-                val apiKey = call.argument<String>("api_key")
-                val appId = call.argument<String>("app_id")
+                val apiKey = call.argument<String?>("api_key")
+                val appId = call.argument<String?>("app_id")
                 if (apiKey == null || appId == null) {
                     result.error("An error has occurred, the apiKey or appId is null.", null, null)
                     return
@@ -59,7 +60,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
             }
             "set_debug" -> {
-                var isDebug = call.argument<Boolean>("is_debug")
+                var isDebug = call.argument<Boolean?>("is_debug")
                 if (isDebug == null) isDebug = true
                 try {
                     Carrot.setDebug(isDebug)
@@ -69,9 +70,9 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
             }
             "auth" -> {
-                if (!checkPluginInitted(result)) return
-                val userId = call.argument<String>("user_id")
-                val userAuthKey = call.argument<String>("user_auth_key")
+                if (!checkPluginInitiated(result)) return
+                val userId = call.argument<String?>("user_id")
+                val userAuthKey = call.argument<String?>("user_auth_key")
                 if (userId == null || userAuthKey == null) {
                     result.error("An error has occurred, the userId or userAuthKey is null.", null, null)
                     return
@@ -87,7 +88,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 })
             }
             "de_init" -> {
-                if (!checkPluginInitted(result)) return
+                if (!checkPluginInitiated(result)) return
                 try {
                     Carrot.deInit()
                     pluginInitted = false
@@ -98,7 +99,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
             }
             "open_chat" -> {
-                if (!checkPluginInitted(result)) return
+                if (!checkPluginInitiated(result)) return
                 try {
                     if (activity != null) {
                         Carrot.openChat(activity)
@@ -110,15 +111,65 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     result.error(e.localizedMessage, null, null)
                 }
             }
+            "track_event" -> {
+                if (!checkPluginInitiated(result)) return
+                val eventName = call.argument<String?>("event_name")
+                val eventParams = call.argument<String?>("event_params")
+                if (eventName == null) {
+                    result.error("An error has occurred, the event_name is null.", null, null)
+                    return
+                }
+                try {
+                    if (eventParams != null)
+                        Carrot.trackEvent(eventName, eventParams)
+                    else
+                        Carrot.trackEvent(eventName)
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error(e.localizedMessage, null, null)
+                }
+            }
+            "set_user_property" -> {
+                if (!checkPluginInitiated(result)) return
+                val userProperties = call.argument<Map<String, String>?>("user_property")
+                if (userProperties == null || userProperties.isEmpty()) {
+                    result.error("An error has occurred, the userProperty is null or empty.", null, null)
+                    return
+                }
+                try {
+                    val list: ArrayList<UserProperty> = arrayListOf()
+                    for (key in userProperties.keys) {
+                        val property = UserProperty(key, userProperties[key])
+                        list.add(property)
+                    }
+                    Carrot.setUserProperty(list)
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error(e.localizedMessage, null, null)
+                }
+            }
+            "send_firebase_notification" -> {
+                if (!checkPluginInitiated(result)) return
+                val remoteMessage = call.argument<Any?>("remote_message")
+                if (remoteMessage == null) {
+                    result.error("An error has occurred, the remoteMessage is null.", null, null)
+                    return
+                }
+                try {
+                    //Carrot.sendFirebasePushNotification(remoteMessage)
+                    //result.success(null)
+                    result.notImplemented()
+                } catch (e: Exception) {
+                    result.error(e.localizedMessage, null, null)
+                }
+            }
             else -> {
                 result.notImplemented()
             }
         }
-
-
     }
 
-    private fun checkPluginInitted(@NonNull result: Result): Boolean {
+    private fun checkPluginInitiated(@NonNull result: Result): Boolean {
         if (!pluginInitted) {
             result.error("The plugin hasn't been initialized yet. Do Carrot.setup(...) first .", null, null)
             return false
