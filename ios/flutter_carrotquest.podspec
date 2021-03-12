@@ -4,10 +4,10 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_carrotquest'
-  s.version          = '0.0.1'
-  s.summary          = 'A new flutter plugin project.'
+  s.version          = '1.0.1'
+  s.summary          = 'A Carrot quest flutter plugin for Android and IOS. You can find a description of the service at https://www.carrotquest.io'
   s.description      = <<-DESC
-A new flutter plugin project.
+  A Carrot quest flutter plugin for Android and IOS. You can find a description of the service at https://www.carrotquest.io
                        DESC
   s.homepage         = 'https://dipdev.studio'
   s.license          = { :file => '../LICENSE' }
