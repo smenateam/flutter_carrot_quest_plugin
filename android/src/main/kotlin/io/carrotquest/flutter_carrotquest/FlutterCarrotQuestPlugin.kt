@@ -3,7 +3,6 @@ package io.carrotquest.flutter_carrotquest
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
-import io.carrotquest_sdk.android.Carrot
 import io.carrotquest_sdk.android.core.main.CarrotSDK
 import io.carrotquest_sdk.android.models.UserProperty
 import io.flutter.embedding.engine.plugins.FlutterPlugin
