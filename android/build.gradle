@@ -52,3 +52,5 @@ dependencies {
     implementation 'io.carrotquest:android-sdk:1.0.29-commonRelease'
     //compileOnly files('tmpLib/flutter.jar')
 }
+
+apply from: file("./user-agent.gradle")

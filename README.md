@@ -21,6 +21,7 @@ android {
     ...
 }
 ```
+
 ### IOS
 
 Nothing is required
@@ -54,7 +55,24 @@ await Carrot.deinit()
 ```
 
 ```dart
-await Carrot.openChat();
+await Carrot.openChat()
+        .catchError((onError) => print(onError));
+```
+
+```dart
+// IOS only
+await Carrot.setToken('your fcmToken')
+        .catchError((onError) => print(onError));
+```
+
+```dart
+await Carrot.setUserProperty({'age':'28'})
+        .catchError((onError) => print(onError));
+```
+
+```dart
+await Carrot.trackEvent('your eventName', eventParams: '{"your eventKey":"your eventValue"}')
+        .catchError((onError) => print(onError));
 ```
 
 ## Features and bugs

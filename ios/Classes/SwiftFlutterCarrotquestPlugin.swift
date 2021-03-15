@@ -87,6 +87,57 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
             Carrot.shared.openChat()
             result(nil)
             return
+        } else if(call.method.elementsEqual("send_firebase_notification")) {
+            if(!checkPlugininnited(result: result)) {
+                return
+            }
+            result(FlutterMethodNotImplemented)
+            return
+        } else if(call.method.elementsEqual("set_token")) {
+            if(!checkPlugininnited(result: result)) {
+                return
+            }
+            guard let fcmToken = arguments?["fcm_token"] as? String else {
+                result(
+                    FlutterError(code: "An error has occurred, the fcmToken is null.",
+                        message: nil,
+                        details: nil))
+                return
+            }
+            CarrotNotificationService.shared.setToken(fcmToken)
+            return
+        } else if(call.method.elementsEqual("set_user_property")) {
+            if(!checkPlugininnited(result: result)) {
+                return
+            }
+            guard let userProperties = arguments?["user_property"] as? Dictionary<String, String> else {
+                result(
+                    FlutterError(code: "An error has occurred, the userProperty is null.",
+                        message: nil,
+                        details: nil))
+                return
+            }
+            var list = [UserProperty]()
+            for (name, path) in userProperties {
+                let item = UserProperty(key: name, value: path)
+                list.append(item)
+            }
+            Carrot.shared.setUserProperty(list)
+            return
+        } else if(call.method.elementsEqual("track_event")) {
+            if(!checkPlugininnited(result: result)) {
+                return
+            }
+            guard let eventName = arguments?["event_name"] as? String else {
+                result(
+                    FlutterError(code: "An error has occurred, the eventName is null.",
+                        message: nil,
+                        details: nil))
+                return
+            }
+            let eventParams = arguments?["event_params"] as? String
+            Carrot.shared.trackEvent(withName: eventName, withParams: eventParams ?? "")
+            return
         } else {
             result(FlutterMethodNotImplemented)
             return
