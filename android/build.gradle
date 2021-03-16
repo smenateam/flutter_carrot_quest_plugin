@@ -12,6 +12,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
+        implementation 'com.android.support:multidex:1.0.3'
+
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -36,6 +38,8 @@ android {
     }
     defaultConfig {
         minSdkVersion 21
+        multiDexEnabled true
+
     }
     packagingOptions {
         exclude 'META-INF/*.kotlin_module'
