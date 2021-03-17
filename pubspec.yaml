@@ -5,8 +5,8 @@ repository: https://gitlab.com/dipdev.studio/open-source/flutter/flutter_carrotq
 homepage: https://www.carrotquest.io
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.22.6"
+  sdk: ">=2.10.0 <3.0.0"
+  flutter: ">=1.22.0"
 
 dependencies:
   flutter:
