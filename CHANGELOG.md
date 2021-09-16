@@ -1,3 +1,11 @@
+## 1.0.0-dev.4
+
+* Change kotlin file name for linux
+
+## 1.0.0-dev.3
+
+* Upgrade dependencies
+
 ## 1.0.0-dev.2
 
 * Implement setToken, setUserProperty and trackEvent methods
