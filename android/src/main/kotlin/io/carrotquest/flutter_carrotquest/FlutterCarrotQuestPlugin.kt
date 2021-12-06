@@ -137,12 +137,13 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     return
                 }
                 try {
-                    val list: ArrayList<UserProperty> = arrayListOf()
+                    //val list: ArrayList<UserProperty> = arrayListOf()
                     for (key in userProperties.keys) {
                         val property = UserProperty(key, userProperties[key])
-                        list.add(property)
+                        Carrot.setUserProperty(property)
+                        //list.add(property)
                     }
-                    Carrot.setUserProperty(list)
+                    //Carrot.setUserProperty(list)
                     result.success(null)
                 } catch (e: Exception) {
                     result.error(e.localizedMessage, null, null)
