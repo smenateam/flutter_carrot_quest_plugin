@@ -140,7 +140,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     //val list: ArrayList<UserProperty> = arrayListOf()
                     for (key in userProperties.keys) {
                         val property = UserProperty(key, userProperties[key])
-                        Carrot.setUserProperty(property)
+                        Carrot.setUserProperty(key, userProperties[key])
                         //list.add(property)
                     }
                     //Carrot.setUserProperty(list)
