@@ -26,17 +26,11 @@ Pod::Spec.new do |s|
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
 
-  #s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '10.0'
 
   s.dependency 'Flutter'
-  s.platform = :ios, '10.0'
-
-  #s.dependency 'firebase_core'
-  #s.dependency 'Firebase/Messaging', firebase_sdk_version
 
   s.dependency 'CarrotquestSDK'
   
-  #s.static_framework = true
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
-  s.swift_version = '5.5'
 end
