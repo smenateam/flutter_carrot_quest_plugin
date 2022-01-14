@@ -6,7 +6,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://raw.github.com/carrotquest/android-sdk/beta" }
+        maven { url "https://raw.github.com/carrotquest/android-sdk/carrotquest" }
         maven { url "https://jitpack.io" }
     }
 
@@ -20,7 +20,7 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://raw.github.com/carrotquest/android-sdk/beta" }
+        maven { url "https://raw.github.com/carrotquest/android-sdk/carrotquest" }
         maven { url "https://jitpack.io" }
     }
 }
@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'io.carrotquest:android-sdk:1.0.36-commonRelease'
+    implementation 'io.carrotquest:android-sdk:1.0.40-commonRelease'
 }
 
 apply from: file("./user-agent.gradle")
