@@ -55,7 +55,7 @@ class Carrot {
   // Note: Only for IOS
   // Send Firebase Cloud Messages Token to Carrot
   static Future<void> setToken(String fcmToken) async {
-    if (kIsWeb || !Platform.isIOS) throw Exception('Only for IOS');
+    // if (kIsWeb || !Platform.isIOS) throw Exception('Only for IOS');
     return _channel.invokeMethod('set_token', {'fcm_token': fcmToken});
   }
 

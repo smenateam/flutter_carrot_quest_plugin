@@ -127,7 +127,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
             }
             "set_token" -> {
-                val token = call.argument<String>("token")
+                val token = call.argument<String>("fcm_token")
                 Carrot.sendFcmToken(token);
             }
             "set_user_property" -> {
