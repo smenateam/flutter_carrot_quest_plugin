@@ -47,14 +47,14 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                     Carrot.setup(con, apiKey, appId, object : CarrotSDK.Callback<Boolean> {
                         override fun onFailure(p0: Throwable?) {
                             pluginInitted = false
-                            //result.error(p0.toString(), null, null)
                         }
 
                         override fun onResponse(p0: Boolean?) {
                             pluginInitted = true
-                            //result.success(null)
                         }
                     })
+
+                    result.success(pluginInitted)
                 } else {
                     result.error("Activity in null", null, null)
                 }
