@@ -35,7 +35,6 @@ class Carrot {
   // Unauthorized user.
   /// After executing this method, you must initialize the plugin again.
   static Future<void> deinit() async {
-    if (kIsWeb || !Platform.isAndroid) throw Exception('Only for Android');
     return _channel.invokeMethod<void>('de_init');
   }
 
