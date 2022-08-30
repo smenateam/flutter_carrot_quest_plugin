@@ -76,10 +76,21 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
         }
         else if(call.method.elementsEqual("de_init")) {
             if(!checkPlugininnited(result: result)) {
-                return
-            }
-            result(FlutterMethodNotImplemented)
             return
+            }
+                Carrot.shared.logout(
+                    successHandler: {
+                                        result(nil)
+                                    },
+                     errorHandler: { error in
+                                        result(
+                                            FlutterError(code: error,
+                                                message: nil,
+                                                details: nil))
+                                    })
+
+            return
+            }
         } else if(call.method.elementsEqual("open_chat")) {
             if(!checkPlugininnited(result: result)) {
                 return
