@@ -90,7 +90,6 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
                                     })
 
             return
-            }
         } else if(call.method.elementsEqual("open_chat")) {
             if(!checkPlugininnited(result: result)) {
                 return
