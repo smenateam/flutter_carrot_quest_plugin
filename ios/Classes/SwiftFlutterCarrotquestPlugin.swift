@@ -75,9 +75,6 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
             return
         }
         else if(call.method.elementsEqual("de_init")) {
-            if(!checkPlugininnited(result: result)) {
-            return
-            }
                 Carrot.shared.logout(
                     successHandler: {
                                         result(nil)

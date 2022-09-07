@@ -21,13 +21,13 @@ class Carrot {
   /// Launching the debug mode of native SDK
   static Future<void> setDebug({bool isDebug = true}) async {
     if (kIsWeb || !Platform.isAndroid) throw Exception('Only for Android');
-    return await _channel.invokeMethod<void>('set_debug', {'is_debug': isDebug});
+    return _channel.invokeMethod<void>('set_debug', {'is_debug': isDebug});
   }
 
   // User authorization
   static Future<bool?> auth(
       {required String userId, required String userAuthKey}) async {
-    return await _channel.invokeMethod<bool?>(
+    return _channel.invokeMethod<bool?>(
         'auth', {'user_id': userId, 'user_auth_key': userAuthKey});
   }
 
@@ -40,14 +40,14 @@ class Carrot {
 
   // Opening a native chat window
   static Future<void> openChat() async {
-    return await _channel.invokeMethod('open_chat');
+    return _channel.invokeMethod('open_chat');
   }
 
   // Note: Only for Android
   // Send Firebase Messages to Carrot
   static Future<void> sendFirebaseNotification(dynamic remoteMessage) async {
     if (!kIsWeb || !Platform.isAndroid) throw Exception('Only for Android');
-    return await _channel.invokeMethod(
+    return _channel.invokeMethod(
         'send_firebase_notification', {'remote_message': remoteMessage});
   }
 
@@ -60,14 +60,14 @@ class Carrot {
 
   // Set user properties
   static Future<void> setUserProperty(Map<String, String> userProperty) async {
-    return await _channel
+    return _channel
         .invokeMethod('set_user_property', {'user_property': userProperty});
   }
 
   // Track user event
   static Future<void> trackEvent(String eventName,
       {String? eventParams}) async {
-    return await _channel.invokeMethod(
+    return _channel.invokeMethod(
         'track_event', {'event_name': eventName, 'event_params': eventParams});
   }
 }
