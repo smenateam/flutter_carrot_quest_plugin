@@ -22,7 +22,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
     private var pluginInitted = false
 
     override fun onAttachedToEngine(
-            @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
+        @NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding
     ) {
         context = flutterPluginBinding.applicationContext
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_carrotquest")
@@ -44,16 +44,24 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 }
                 val con = context
                 if (con != null) {
+                    var res: Boolean? = null
                     Carrot.setup(con, apiKey, appId, object : CarrotSDK.Callback<Boolean> {
                         override fun onFailure(p0: Throwable?) {
+                            if (res != null) {
+                                res = false
+                                result.error(p0!!.localizedMessage, null, null)
+                            }
                             pluginInitted = false
                         }
 
                         override fun onResponse(p0: Boolean?) {
                             pluginInitted = true
+                            if (res != null) {
+                                res = p0
+                                result.success(p0)
+                            }
                         }
                     })
-
                     result.success(pluginInitted)
                 } else {
                     result.error("Activity in null", null, null)
@@ -74,29 +82,50 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 val userId = call.argument<String?>("user_id")
                 val userAuthKey = call.argument<String?>("user_auth_key")
                 if (userId == null || userAuthKey == null) {
-                    result.error("An error has occurred, the userId or userAuthKey is null.", null, null)
+                    result.error(
+                        "An error has occurred, the userId or userAuthKey is null.",
+                        null,
+                        null
+                    )
                     return
                 }
+                var res: Boolean? = null
                 Carrot.auth(userId, userAuthKey, object : CarrotSDK.Callback<Boolean> {
-                    override fun onResponse(p0: Boolean?) {
-                        result.success(p0)
+                    override fun onFailure(p0: Throwable?) {
+                        if (res != null) {
+                            res = false
+                            result.error(p0!!.localizedMessage, null, null)
+                        }
                     }
 
-                    override fun onFailure(p0: Throwable?) {
-                        result.error(p0?.localizedMessage, null, null)
+                    override fun onResponse(p0: Boolean?) {
+                        if (res != null) {
+                            res = p0
+                            result.success(p0)
+                        }
                     }
                 })
             }
             "de_init" -> {
                 if (!checkPluginInitiated(result)) return
-                try {
-                    Carrot.deInit()
-                    pluginInitted = false
-                    result.success(null)
-                } catch (e: Exception) {
-                    pluginInitted = false
-                    result.error(e.localizedMessage, null, null)
-                }
+                var res: Boolean? = null
+                Carrot.deInit(object : CarrotSDK.Callback<Boolean> {
+                    override fun onFailure(p0: Throwable?) {
+                        pluginInitted = false
+                        if (res != null) {
+                            res = false
+                            result.error(p0!!.localizedMessage, null, null)
+                        }
+                    }
+
+                    override fun onResponse(p0: Boolean?) {
+                        pluginInitted = false
+                        if (res != null) {
+                            res = p0
+                            result.success(p0)
+                        }
+                    }
+                })
             }
             "open_chat" -> {
                 if (!checkPluginInitiated(result)) return
@@ -135,7 +164,11 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                 if (!checkPluginInitiated(result)) return
                 val userProperties = call.argument<Map<String, String>?>("user_property")
                 if (userProperties == null || userProperties.isEmpty()) {
-                    result.error("An error has occurred, the userProperty is null or empty.", null, null)
+                    result.error(
+                        "An error has occurred, the userProperty is null or empty.",
+                        null,
+                        null
+                    )
                     return
                 }
                 try {
@@ -177,7 +210,11 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
 
     private fun checkPluginInitiated(@NonNull result: Result): Boolean {
         if (!pluginInitted) {
-            result.error("The plugin hasn't been initialized yet. Do Carrot.setup(...) first .", null, null)
+            result.error(
+                "The plugin hasn't been initialized yet. Do Carrot.setup(...) first .",
+                null,
+                null
+            )
             return false
         }
         return true
