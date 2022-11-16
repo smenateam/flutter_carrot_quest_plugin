@@ -18,6 +18,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Build
 import android.app.NotificationManager
+import android.app.NotificationChannel
 
 class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
@@ -35,11 +36,21 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
 
         /// работает только на версиях сдк < 25
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = context!!.getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
+            val notificationManager =
+                context!!.getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
             // Получение имен всех каналов
             // notificationManager!!.notificationChannels.toString()
             // Удаление канала. После этой операции cq не сможет создать канал с таким же именем
-            notificationManager?.deleteNotificationChannel("cq_notifications_channel");
+            // notificationManager?.deleteNotificationChannel("cq_notifications_channel");
+
+            // обман cq. Мы сами создаем для них канал и отключаем его каждый запуск приложения
+            notificationManager?.createNotificationChannel(
+                NotificationChannel(
+                    "cq_notifications_channel",
+                    "Чаты",
+                    NotificationManager.IMPORTANCE_NONE
+                )
+            )
         }
     }
 
