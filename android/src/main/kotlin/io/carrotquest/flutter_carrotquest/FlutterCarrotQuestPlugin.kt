@@ -13,6 +13,11 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+//import android.content.pm.PackageManager
+//import android.content.ComponentName
+import android.content.Context.NOTIFICATION_SERVICE
+import android.os.Build
+import android.app.NotificationManager
 
 class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
@@ -27,6 +32,15 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
         context = flutterPluginBinding.applicationContext
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_carrotquest")
         channel.setMethodCallHandler(this)
+
+        /// работает только на версиях сдк < 25
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = context!!.getSystemService(NOTIFICATION_SERVICE) as NotificationManager?
+            // Получение имен всех каналов
+            // notificationManager!!.notificationChannels.toString()
+            // Удаление канала. После этой операции cq не сможет создать канал с таким же именем
+            notificationManager.deleteNotificationChannel("cq_notifications_channel");
+        }
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
