@@ -58,6 +58,14 @@ class Carrot {
     return await _channel.invokeMethod('set_token', {'fcm_token': fcmToken});
   }
 
+  /// удаление токена для ios и только
+  static Future<void> deleteToken() async {
+    if (Platform.isIOS) {
+      return await _channel.invokeMethod('delete_token');
+    }
+    return;
+  }
+
   // Set user properties
   static Future<void> setUserProperty(Map<String, String> userProperty) async {
     return _channel

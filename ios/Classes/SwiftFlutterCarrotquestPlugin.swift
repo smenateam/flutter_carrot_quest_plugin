@@ -114,6 +114,13 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
             CarrotNotificationService.shared.setToken(fcmToken)
             result(nil)
             return
+        }else if(call.method.elementsEqual("delete_token")) {
+             if(!checkPlugininnited(result: result)) {
+                 return
+             }
+             CarrotNotificationService.shared.deleteToken()
+             result(nil)
+             return
         } else if(call.method.elementsEqual("set_user_property")) {
             if(!checkPlugininnited(result: result)) {
                 return
