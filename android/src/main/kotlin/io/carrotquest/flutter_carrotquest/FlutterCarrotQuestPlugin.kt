@@ -39,7 +39,7 @@ class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
             // Получение имен всех каналов
             // notificationManager!!.notificationChannels.toString()
             // Удаление канала. После этой операции cq не сможет создать канал с таким же именем
-            notificationManager.deleteNotificationChannel("cq_notifications_channel");
+            notificationManager?.deleteNotificationChannel("cq_notifications_channel");
         }
     }
 
