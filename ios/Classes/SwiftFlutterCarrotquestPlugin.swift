@@ -29,6 +29,7 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
             }
             Carrot.shared.setup(
                 withApiKey: apiKey,
+                withAppGroup: "group.Balinasoft.FarFor",
                 successHandler: {
                     result(nil)
                 },
