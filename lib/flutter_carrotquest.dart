@@ -5,16 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class Carrot {
-  static const MethodChannel _channel =
-      const MethodChannel('flutter_carrotquest');
+  static const MethodChannel _channel = const MethodChannel('flutter_carrotquest');
 
   // Plugin initialization.
   /// This must be done before using any other methods of this plugin.
   /// You can use this in main.dart before launch runApp(...)
-  static Future<void> setup(
-      {required String apiKey, required String appId}) async {
-    return await _channel
-        .invokeMethod<void>('setup', {'api_key': apiKey, 'app_id': appId});
+  static Future<void> setup({required String apiKey, required String appId}) async {
+    return await _channel.invokeMethod<void>('setup', {'api_key': apiKey, 'app_id': appId});
   }
 
   // Note: Only for Android
@@ -25,10 +22,8 @@ class Carrot {
   }
 
   // User authorization
-  static Future<bool?> auth(
-      {required String userId, required String userAuthKey}) async {
-    return _channel.invokeMethod<bool?>(
-        'auth', {'user_id': userId, 'user_auth_key': userAuthKey});
+  static Future<bool?> auth({required String userId, required String userAuthKey}) async {
+    return _channel.invokeMethod<bool?>('auth', {'user_id': userId, 'user_auth_key': userAuthKey});
   }
 
   // Note: Only for Android
@@ -47,14 +42,12 @@ class Carrot {
   // Send Firebase Messages to Carrot
   static Future<void> sendFirebaseNotification(dynamic remoteMessage) async {
     if (!kIsWeb || !Platform.isAndroid) throw Exception('Only for Android');
-    return _channel.invokeMethod(
-        'send_firebase_notification', {'remote_message': remoteMessage});
+    return _channel.invokeMethod('send_firebase_notification', {'remote_message': remoteMessage});
   }
 
   // Note: Only for IOS
   // Send Firebase Cloud Messages Token to Carrot
   static Future<void> setToken(String fcmToken) async {
-    // if (kIsWeb || !Platform.isIOS) throw Exception('Only for IOS');
     return await _channel.invokeMethod('set_token', {'fcm_token': fcmToken});
   }
 
@@ -68,14 +61,16 @@ class Carrot {
 
   // Set user properties
   static Future<void> setUserProperty(Map<String, String> userProperty) async {
-    return _channel
-        .invokeMethod('set_user_property', {'user_property': userProperty});
+    return _channel.invokeMethod('set_user_property', {'user_property': userProperty});
   }
 
   // Track user event
-  static Future<void> trackEvent(String eventName,
-      {String? eventParams}) async {
-    return _channel.invokeMethod(
-        'track_event', {'event_name': eventName, 'event_params': eventParams});
+  static Future<void> trackEvent(String eventName, {String? eventParams}) async {
+    return _channel.invokeMethod('track_event', {'event_name': eventName, 'event_params': eventParams});
+  }
+
+  // Track user event
+  static Future<void> openChatById(String id) async {
+    return await _channel.invokeMethod('open_chat_by_id', {'id': id});
   }
 }
