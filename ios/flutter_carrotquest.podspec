@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'Flutter'
 
-  s.dependency 'CarrotquestSDK', '2.8.6'
+  s.dependency 'CarrotquestSDK'
   
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end

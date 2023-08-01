@@ -1,25 +1,26 @@
 package io.carrotquest.flutter_carrotquest
 
-//import android.content.pm.PackageManager
-//import android.content.ComponentName
 import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
-import android.content.Intent
-import android.os.Build
 import androidx.annotation.NonNull
 import io.carrotquest_sdk.android.Carrot
 import io.carrotquest_sdk.android.core.main.CarrotSDK
 import io.carrotquest_sdk.android.models.UserProperty
-import io.carrotquest_sdk.android.presentation.mvp.dialog.view.DialogActivity
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.MethodChannel.Result
+//import android.content.pm.PackageManager
+//import android.content.ComponentName
+import android.content.Context.NOTIFICATION_SERVICE
+import android.os.Build
+import android.app.NotificationManager
+import android.app.NotificationChannel
+import android.content.Intent
+import io.carrotquest_sdk.android.presentation.mvp.dialog.view.DialogActivity
 
 class FlutterCarrotquestPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
