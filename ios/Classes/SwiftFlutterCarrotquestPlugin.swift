@@ -153,6 +153,8 @@ public class SwiftFlutterCarrotquestPlugin: NSObject, FlutterPlugin {
             let eventParams = arguments?["event_params"] as? String
             Carrot.shared.trackEvent(withName: eventName, withParams: eventParams ?? "")
             return
+        } else if(call.method.elementsEqual("is_init")) {
+            result(false)
         } else {
             result(FlutterMethodNotImplemented)
             return

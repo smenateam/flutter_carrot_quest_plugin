@@ -73,4 +73,9 @@ class Carrot {
   static Future<void> openChatById(String id) async {
     return await _channel.invokeMethod('open_chat_by_id', {'id': id});
   }
+
+  // Track user event
+  static Future<bool> isInit() async {
+    return await _channel.invokeMethod('is_init');
+  }
 }
